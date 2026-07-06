@@ -1,0 +1,691 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:#090b12;
+color:white;
+overflow-x:hidden;
+}
+
+canvas{
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+z-index:-3;
+}
+
+.heart {
+  position: fixed;
+  top: -50px;              /* важно: старт выше экрана */
+  left: 0;
+  pointer-events: none;
+  z-index: 999;            /* чтобы были поверх */
+  animation: fall linear forwards;
+}
+
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+}
+
+.hero h1{
+font-size:70px;
+margin-bottom:25px;
+text-shadow:0 0 25px #ff5aa5;
+animation:fadeUp 1.3s;
+}
+
+.hero p{
+font-size:24px;
+color:#d4d4d4;
+line-height:1.8;
+max-width:700px;
+animation:fadeUp 1.8s;
+}
+
+button{
+margin-top:50px;
+padding:18px 45px;
+font-size:22px;
+border:none;
+border-radius:50px;
+background:#ff4f8b;
+color:white;
+cursor:pointer;
+transition:.4s;
+box-shadow:0 0 30px rgba(255,79,139,.45);
+}
+
+button:hover{
+transform:scale(1.08);
+box-shadow:0 0 45px rgba(255,79,139,.9);
+}
+
+#content{
+display:none;
+padding:80px 20px;
+max-width:1100px;
+margin:auto;
+}
+
+.photoGallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.photoGallery img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 25px;
+  transition: transform 0.3s ease;
+}
+
+.photoGallery img:hover {
+  transform: scale(1.03);
+}
+.photoCard{
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(20px);
+border-radius:25px;
+padding:20px;
+margin-bottom:70px;
+box-shadow:0 0 35px rgba(255,255,255,.08);
+}
+.photoGallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.photoGallery img {
+  width: 100%;
+  height: 650px;
+  object-fit: contain;   /* ВАЖНО: убирает обрезку */
+  background: #0f111a;   /* чтобы пустые зоны выглядели нормально */
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.photoGallery img:hover {
+  transform: scale(1.05);
+}
+
+.photoCard img{
+width:100%;
+display:block;
+border-radius:18px;
+transition:.6s;
+}
+
+.photoCard:hover img{
+transform:scale(1.02);
+}
+
+.discord{
+background:#313338;
+border-radius:18px;
+padding:25px;
+margin-bottom:80px;
+box-shadow:0 0 25px rgba(0,0,0,.5);
+}
+
+.myMessage{
+margin-bottom:35px;
+}
+
+.myName,
+.userName{
+font-weight:700;
+font-size:18px;
+margin-bottom:8px;
+}
+
+.myName span,
+.userName span{
+font-size:13px;
+margin-left:10px;
+color:#999;
+}
+
+.bubbleMe{
+background:#5865F2;
+padding:14px 18px;
+border-radius:18px;
+display:inline-block;
+max-width:420px;
+}
+
+.bubble{
+background:#404249;
+padding:14px 18px;
+border-radius:18px;
+display:inline-block;
+max-width:420px;
+}
+
+.edited{
+margin-top:6px;
+font-size:12px;
+color:#ddd;
+}
+
+.userMessage{
+display:flex;
+align-items:flex-start;
+gap:15px;
+}
+
+.avatar{
+width:54px;
+height:54px;
+border-radius:50%;
+}
+
+.letter{
+text-align:center;
+background:rgba(255,255,255,.05);
+padding:70px 30px;
+border-radius:25px;
+backdrop-filter:blur(18px);
+}
+
+.letter h2{
+font-size:48px;
+margin-bottom:25px;
+color:#ff75ad;
+}
+
+.letter p{
+font-size:22px;
+line-height:2;
+color:#e6e6e6;
+}
+
+.reveal{
+opacity:0;
+transform:translateY(60px);
+transition:1s;
+}
+
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+}
+
+@keyframes fadeUp{
+
+from{
+opacity:0;
+transform:translateY(35px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.heart{
+position:fixed;
+font-size:22px;
+animation:fall linear infinite;
+opacity:.8;
+pointer-events:none;
+}
+
+@keyframes fall{
+
+0%{
+transform:translateY(-10vh);
+}
+
+100%{
+transform:translateY(110vh);
+}
+
+}/* ---------- Анимация фото ---------- */
+
+.photoCard{
+overflow:hidden;
+}
+
+.photoCard img{
+
+animation:zoom 15s linear infinite alternate;
+
+}
+
+@keyframes zoom{
+
+0%{
+
+transform:scale(1);
+
+}
+
+100%{
+
+transform:scale(1.08);
+
+}
+
+}
+
+/* ---------- Красивое свечение ---------- */
+
+.photoCard,
+.discord,
+.letter{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.photoCard::before,
+.discord::before,
+.letter::before{
+
+content:"";
+
+position:absolute;
+
+width:250px;
+height:250px;
+
+background:radial-gradient(circle,
+rgba(255,100,170,.35),
+transparent 70%);
+
+top:-120px;
+left:-120px;
+
+animation:lightMove 12s linear infinite;
+
+}
+
+@keyframes lightMove{
+
+0%{
+
+transform:translate(-30px,-20px);
+
+}
+
+50%{
+
+transform:translate(700px,350px);
+
+}
+
+100%{
+
+transform:translate(-30px,-20px);
+
+}
+
+}
+
+/* ---------- Кнопка ---------- */
+
+button{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+button::after{
+
+content:"";
+
+position:absolute;
+
+left:-120%;
+
+top:0;
+
+width:100%;
+
+height:100%;
+
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.6),
+transparent);
+
+transition:1s;
+
+}
+
+button:hover::after{
+
+left:120%;
+
+}
+
+/* ---------- Заголовок ---------- */
+
+.hero h1{
+
+animation:pulse 3s infinite;
+
+}
+
+@keyframes pulse{
+
+0%,100%{
+
+text-shadow:
+0 0 15px #ff4d9a,
+0 0 35px #ff4d9a;
+
+}
+
+50%{
+
+text-shadow:
+0 0 35px #ff4d9a,
+0 0 70px #ff4d9a;
+
+}
+
+}
+
+/* ---------- Финал ---------- */
+
+.endHeart{
+
+font-size:90px;
+
+margin-top:40px;
+
+animation:beat 1s infinite;
+
+}
+
+@keyframes beat{
+
+0%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.2);
+
+}
+
+100%{
+
+transform:scale(1);
+
+}
+}/* затемнение фона */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* открытая картинка */
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 190px;
+  box-shadow: 0 0 100px rgba(255,255,255,0.2);
+  transform: scale(1);
+}
+
+/* показать */
+.lightbox.active {
+  display: flex;
+}.photoGallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.photoGallery img {
+  width: 100%;
+  height: 650px;
+  object-fit: cover;
+  border-radius: 22px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.photoGallery img:hover {
+  transform: scale(1.01);
+}
+
+/* LIGHTBOX */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.92);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.lightbox img {
+  max-width: 92%;
+  max-height: 92%;
+  border-radius: 18px;
+  box-shadow: 0 0 80px rgba(255,255,255,0.25);
+}
+
+.lightbox.active {
+  display: flex;
+}.photoGallery img {
+  width: 100% !important;
+  height: 650px !important;
+  object-fit: contain !important;
+  object-position: center;
+  background: #0f111a;
+  border-radius: 20px;
+}.endPoll {
+  text-align: center;
+  padding: 100px 20px;
+  margin-top: 120px;
+}
+
+.endPoll h2 {
+  font-size: 42px;
+  color: #ff75ad;
+  margin-bottom: 40px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.yesBtn, .noBtn {
+  padding: 15px 40px;
+  font-size: 20px;
+  border: none;
+  border-radius: 50px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.yesBtn {
+  background: #4caf50;
+}
+
+.yesBtn:hover {
+  transform: scale(1.05);
+}
+
+.noBtn {
+  background: #ff4f8b;
+}
+
+/* ФИНАЛЬНЫЙ ЭКРАН */
+.finalScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.finalText {
+  font-size: 60px;
+  color: #ff75ad;
+  animation: pop 1s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}.endPoll {
+  display: none;
+}.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.yesBtn {
+  padding: 15px 40px;
+  font-size: 20px;
+  border: none;
+  border-radius: 50px;
+  background: #4caf50;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.yesBtn:hover {
+  transform: scale(1.05);
+}.finalScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.finalText {
+  font-size: 60px;
+  color: #ff75ad;
+  animation: pop 0.8s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}body {
+  background: radial-gradient(circle at top, #1a0b2e, #090b12 60%);
+}.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+
+  backdrop-filter: blur(10px);
+}.hero h1 {
+  font-size: 72px;
+  color: #fff;
+  text-shadow: 0 0 25px #ff4f8b, 0 0 60px #ff4f8b;
+  animation: floatTitle 4s ease-in-out infinite;
+}
+
+@keyframes floatTitle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}button {
+  margin-top: 50px;
+  padding: 18px 45px;
+  font-size: 22px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(45deg, #ff4f8b, #ff75ad);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 30px rgba(255,79,139,.4);
+  transition: 0.3s;
+  animation: pulseBtn 2s infinite;
+}
+
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 60px rgba(255,79,139,.8);
+}
+
+@keyframes pulseBtn {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}.hero::before {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,79,139,0.25), transparent 70%);
+  top: 10%;
+  left: 20%;
+  animation: moveGlow 10s infinite alternate;
+}
+
+@keyframes moveGlow {
+  from { transform: translate(0,0); }
+  to { transform: translate(200px, 100px); }
+}
